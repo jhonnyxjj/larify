@@ -1,0 +1,17 @@
+# Node/Bun dependencies
+node_modules
+
+# Build output
+dist
+*.log
+
+# IDEs
+.vscode
+.idea
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Prisma local DBs
+*.db

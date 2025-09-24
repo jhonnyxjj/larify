@@ -1,0 +1,34 @@
+
+version: '3.9'
+
+services:
+  db:
+    image: postgres:17.6
+    container_name: larify_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - '${DATABASE_PORT}:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  bun:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: development
+    container_name: larify_bun
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    working_dir: /app
+    environment:
+      LARIFY_DATABASE_URL: ${LARIFY_DATABASE_URL}
+    command: ${COMMAND}
+
+volumes:
+  pgdata: {}

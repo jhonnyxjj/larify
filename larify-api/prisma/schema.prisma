@@ -1,0 +1,18 @@
+// NOTE: 
+// Run the command bun prisma:generate after editing this file.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("LARIFY_DATABASE_URL")
+}
+
+model tasks {
+  id         Int      @id @default(autoincrement())
+  name       String
+  completed  Boolean
+  created_at DateTime @default(now())
+}

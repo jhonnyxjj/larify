@@ -1,0 +1,51 @@
+# Node/Bun
+node_modules/
+
+# TypeScript
+dist/
+build/
+*.tsbuildinfo
+
+# Prisma
+/prisma/dev.db
+/prisma/dev.db-journal
+
+# Env vars
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# VSCode
+.vscode/
+
+# OS / Editor stuff
+.DS_Store
+Thumbs.db
+
+# Coverage (caso use testes)
+coverage/
+.nyc_output/
+
+# Docker
+*.local.yml
+docker-compose.override.yml
+
+# Optional: SQLite backups
+*.sqlite
+*.sqlite-journal
+
+# tsoa routes
+src/server/tsoa-generated/*
+src/server/tsoa-generated/.gitkeep
+
+# tsoa docs
+docs/
+# Arquivo de guia do Docker pessoal
+DOCKER_GUIDE.md
