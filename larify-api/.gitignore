@@ -49,3 +49,4 @@ src/server/tsoa-generated/.gitkeep
 docs/
 # Arquivo de guia do Docker pessoal
 DOCKER_GUIDE.md
+readme_guide.md

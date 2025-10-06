@@ -10,9 +10,75 @@ datasource db {
   url      = env("LARIFY_DATABASE_URL")
 }
 
-model tasks {
-  id         Int      @id @default(autoincrement())
-  name       String
-  completed  Boolean
-  created_at DateTime @default(now())
+/****************************
+* ENUMS
+****************************/
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum PropertyType {
+  SALE    // venda
+  RENT    // aluguel
+}
+
+enum PropertyStatus {
+  ACTIVE
+  INACTIVE
+  SOLD
+}
+
+/****************************
+* TABLES
+****************************/
+
+model User {
+  id          String   @id @default(cuid())  // ID interno
+  firebaseUid String   @unique               // UID vindo do Firebase Auth
+  name        String
+  email       String   @unique
+  phone       String?                          // opcional (para contato)
+  role        UserRole @default(USER)
+  
+  // Relacionamentos
+  properties  Property[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Property {
+  id          String          @id @default(cuid())
+  title       String
+  description String
+  price       Decimal
+  type        PropertyType    // venda ou aluguel
+  status      PropertyStatus  @default(ACTIVE)
+  
+  // Endereço
+  city        String
+  neighborhood String
+  street      String
+  number      String
+  cep         String
+  reference   String?         // ponto de referência opcional
+  
+  // Relacionamento
+  userId      String
+  user        User            @relation(fields: [userId], references: [id])
+  
+  images      PropertyImage[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PropertyImage {
+  id         String   @id @default(cuid())
+  url        String   // URL da foto (Firebase Storage, Cloudinary, etc)
+  
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
 }
