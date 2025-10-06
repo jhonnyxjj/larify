@@ -36,17 +36,20 @@ enum PropertyStatus {
 
 model User {
   id          String   @id @default(cuid())  // ID interno
-  firebaseUid String   @unique               // UID vindo do Firebase Auth
+  authProviderId  String   @unique  @map("auth_provider_id") // UID vindo do Firebase Auth
   name        String
   email       String   @unique
   phone       String?                          // opcional (para contato)
   role        UserRole @default(USER)
   
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  lastLoginAt     DateTime @map("last_login_at")
+
   // Relacionamentos
   properties  Property[]
   
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  @@map("users")
 }
 
 model Property {
@@ -66,19 +69,23 @@ model Property {
   reference   String?         // ponto de referência opcional
   
   // Relacionamento
-  userId      String
+  userId      String    @map("user_id")
   user        User            @relation(fields: [userId], references: [id])
   
   images      PropertyImage[]
   
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("properties")
 }
 
 model PropertyImage {
   id         String   @id @default(cuid())
   url        String   // URL da foto (Firebase Storage, Cloudinary, etc)
   
-  propertyId String
+  propertyId String   @map("property_id")
   property   Property @relation(fields: [propertyId], references: [id])
+
+  @@map("property_images")
 }

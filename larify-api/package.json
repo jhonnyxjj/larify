@@ -13,13 +13,13 @@
     "routes:gen": "tsoa routes",
     "doc:gen": "tsoa spec",
     "tsoa:gen": "bun routes:gen && bun doc:gen",
-    "prisma:generate": "bunx prisma generate",
+    "prisma:generate": "bunx prisma db push && bunx prisma generate",
     "migrate:create": "bunx prisma migrate dev --name ",
     "migrate:deploy": "bunx prisma migrate deploy",
     "migrate:reset": "bunx prisma migrate reset"
   },
   "dependencies": {
-    "@prisma/client": "6.16.2",
+    "@prisma/client": "^6.16.3",
     "express": "^5.1.0",
     "pino": "^9.11.0",
     "reflect-metadata": "^0.2.2",
@@ -45,7 +45,7 @@
     "lint-staged": "^16.1.6",
     "pino-pretty": "^13.1.1",
     "prettier": "^3.6.2",
-    "prisma": "6.16.2",
+    "prisma": "^6.16.3",
     "supertest": "^7.1.4",
     "typescript": "^5.9.2"
   },
