@@ -1,41 +1,54 @@
-# TypeScript API Template
+# Larify API
 
-A modern and well-structured TypeScript API template using [Bun](https://bun.sh/), [Prisma](https://www.prisma.io/), [Express](https://expressjs.com/), and [Tsoa](https://tsoa-community.github.io/docs/home/). This project aims to deliver a clean and scalable architecture from the start.
+Este repositório contém a API backend para a plataforma **Larify**, uma aplicação web pública projetada para conectar proprietários de imóveis a potenciais compradores e inquilinos.
+
+A API é construída com [Bun](https://bun.sh/), [Prisma](https://www.prisma.io/), [Express](https://expressjs.com/) e [Tsoa](https://tsoa-community.github.io/docs/home/), utilizando uma arquitetura limpa e escalável para dar suporte às necessidades do negócio.
 
 ---
 
-## 📁 Project Structure
+## ✨ Funcionalidades Principais da API
+
+- **Gestão de Usuários:** Cadastro e autenticação (integrado com Firebase).
+- **CRUD de Imóveis:** Gerenciamento completo (criação, leitura, atualização e deleção) de anúncios de imóveis para venda ou aluguel.
+- **Upload de Imagens:** Suporte para múltiplas imagens por anúncio.
+- **Busca e Filtragem:** Endpoints preparados para filtros por localização (cidade), tipo (venda/aluguel), preço, etc.
+- **Painel do Usuário:** Lógica para carregar e gerenciar os próprios anúncios em uma área privada.
+- **Contato Direto:** Armazenamento de telefone do usuário para facilitar o contato via WhatsApp a partir do front-end.
+
+---
+
+## 📁 Estrutura do Projeto
 
 ```
 .
 ├── src
-│   ├── core/               # Core functionalities (logger, env, errors, etc.)
-│   ├── domains/            # Domain logic, split by business modules
-│   │   └── health/         # Example domain: health check
-│   ├── server/             # TSOA generated routes and server startup
-│   └── index.ts            # Entry point
-├── prisma/                 # Prisma schema and migrations
-├── tests/                  # E2E and integration tests
-├── Dockerfile.prod         # Production-only Dockerfile
+│   ├── core/               # Funcionalidades centrais (logger, env, erros, etc.)
+│   ├── domains/            # Lógica de domínio, dividida por módulos de negócio
+│   │   └── properties/     # Exemplo de domínio: imóveis
+│   ├── server/             # Rotas geradas pelo TSOA e inicialização do servidor
+│   └── index.ts            # Ponto de entrada da aplicação
+├── prisma/                 # Schema e migrações do Prisma
+├── tests/                  # Testes E2E e de integração
+├── docker/                 # Arquivos de configuração do Docker
 ├── tsconfig.json
 ├── bun.lockb
-├── .env.example            # App environment variables example
-├── .env                    # App environment variables (ignored by Git)
-├── .env.test               # Used only for tests (ignored by Git)
+├── .env.example            # Exemplo de variáveis de ambiente
+├── .env                    # Variáveis de ambiente (ignoradas pelo Git)
+├── .env.test               # Usado apenas para testes (ignorado pelo Git)
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Começando
 
-### Requirements
+### Requisitos
 
 - [Bun](https://bun.sh/docs/installation)
-- [PostgreSQL](https://www.postgresql.org/) with:
-  - `clashcrew` database for development
-  - `clashcrew-test` database for tests
+- [PostgreSQL](https://www.postgresql.org/) com duas bases de dados:
+  - `larify_development` para desenvolvimento
+  - `larify_test` para testes
 
-### Installation
+### Instalação
 
 ```bash
 bun install
@@ -45,87 +58,128 @@ bun install
 
 ## 🧪 Scripts
 
-| Script             | Description                              |
-| ------------------ | ---------------------------------------- |
-| `bun dev`          | Runs the server with file watching       |
-| `bun run test`     | Resets test database and runs tests      |
-| `bun test:prepare` | Resets and prepares database for testing |
-| `bun lint`         | Runs ESLint                              |
-| `bun lint:fix`     | Fixes lint issues                        |
-| `bun format`       | Formats code with Prettier               |
-| `bun routes:gen`   | Regenerates TSOA routes                  |
+| Script             | Descrição                                  |
+| ------------------ | ------------------------------------------ |
+| `bun dev`          | Inicia o servidor em modo de desenvolvimento |
+| `bun run test`     | Reseta o banco de testes e executa os testes |
+| `bun test:prepare` | Prepara o banco de dados para os testes      |
+| `bun lint`         | Executa o ESLint para análise de código      |
+| `bun lint:fix`     | Corrige problemas de lint automaticamente    |
+| `bun format`       | Formata o código com o Prettier              |
+| `bun routes:gen`   | Gera novamente as rotas do TSOA              |
 
-> ℹ️ Bun automatically loads `.env` and supports `.env.test` via the `--env-file` flag.
-
----
-
-## 📚 Domain Structure
-
-Each domain lives under `src/domains/{module}` and may include:
-
-- `controller.ts` — Defines routes with TSOA decorators.
-- `service.ts` — Business logic layer.
-- `repository.ts` — (optional) Database layer if needed.
-- `dto/` — Data Transfer Objects.
-- `interfaces/` — Contracts/interfaces.
-
-Example: `src/domains/health/`
+> ℹ️ O Bun carrega automaticamente o arquivo `.env`. Para testes, ele utiliza o arquivo especificado na flag `--env-file`.
 
 ---
 
-## ✨ TSOA Integration
+## 📚 Estrutura de Domínio
 
-- Routes and OpenAPI spec are auto-generated via:
+Cada domínio fica em `src/domains/{module}` e pode incluir:
+
+- `*.controller.ts` — Define as rotas usando os decoradores do TSOA.
+- `*.service.ts` — Contém a lógica de negócio.
+- `*.repository.ts` — (Opcional) Camada de acesso ao banco de dados.
+- `dto/` — _Data Transfer Objects_ para validação de entrada e saída.
+- `interfaces/` — Contratos e interfaces do domínio.
+
+Exemplo: `src/domains/properties/`
+
+---
+
+## ✨ Integração com TSOA
+
+- As rotas e a especificação OpenAPI (Swagger) são geradas automaticamente com o comando:
 
 ```bash
 bun routes:gen
 ```
 
-- Decorators like `@Route`, `@Get`, `@Post`, and `@Response` enable automatic documentation.
+- Decoradores como `@Route`, `@Get`, `@Post`, e `@Response` permitem a documentação automática e a validação das rotas.
 
 ---
 
-## ⚠️ Error Handling
+## ⚠️ Tratamento de Erros
 
-- All custom errors inherit from `ServerError`.
-- Standardized response format:
+- Todos os erros personalizados herdam da classe `ServerError`.
+- A resposta de erro é padronizada no seguinte formato:
 
 ```json
 {
-  "error": "ErrorName",
-  "message": "Optional human-readable explanation"
+  "error": "NomeDoErro",
+  "message": "Explicação opcional do erro"
 }
 ```
 
 ---
 
-## 🐘 PostgreSQL Setup
+## 🐘 Configuração do PostgreSQL
 
-Create two local databases:
+Crie duas bases de dados locais:
 
 ```bash
-# Dev
-createdb clashcrew
+# Desenvolvimento
+createdb larify_development
 
-# Test
-createdb clashcrew-test
+# Testes
+createdb larify_test
 ```
 
-And configure your `.env` and `.env.test` accordingly.
+E configure seus arquivos `.env` e `.env.test` com a variável `LARIFY_DATABASE_URL` apropriada.
 
 ---
 
-## 🐳 Docker (Production Only)
+## 🐳 Docker (Apenas Produção)
 
-To build and run a production-ready image:
+Para construir e executar a imagem Docker para produção:
 
 ```bash
-docker build -f Dockerfile.prod -t rapidstack-api .
-docker run -p 3000:3000 --env-file .env rapidstack-api
+docker build -f ./docker/Dockerfile -t larify-api .
+docker run -p 3000:3000 --env-file .env larify-api
 ```
+---
 
-## 🎯 Future (Maybe?)
+### Features futuras
 
-- Add Docker Compose for local development;
-- Add code coverage constraints;
-- Code injection;
+## 🔐 Segurança e Estrutura — Futuras Implementações
+
+Essas features não são obrigatórias para o MVP, mas estão planejadas para fortalecer a arquitetura, segurança e escalabilidade do sistema.
+
+### 🧱 Controle e Integridade de Dados
+- **Soft Delete (`isActive`)**  
+  Permite desativar usuários e imóveis sem removê-los do banco, preservando histórico e integridade de relações.
+
+- **Restrição de Exclusão (`onDelete: Restrict`)**  
+  Impede a exclusão acidental de usuários que ainda possuem imóveis cadastrados.
+
+### 👥 Autenticação e Permissões
+- **Controle de Papéis (`role`)**  
+  Define níveis de acesso (ex: `USER` e `ADMIN`) para futuras funcionalidades administrativas.
+
+- **Registro de Último Login (`lastLoginAt`)**  
+  Guarda a data e hora do último acesso, útil para auditoria e métricas de uso.
+
+- **Registro de IP (`lastLoginIp`)**  
+  Permite detectar logins suspeitos e monitorar acessos por região.
+
+### ⚡ Desempenho e Cache
+- **Redis (Cache e Sessões)**  
+  Implementação de cache em memória para melhorar o desempenho de consultas, armazenamento de sessões e controle de rate-limit.
+
+- **Índices em Campos Críticos (`@@index`)**  
+  Melhora a performance em consultas de login e autenticação (`email`, `authProviderId`).
+
+### 📊 Auditoria (Futuro)
+- **Registro de Alterações de Entidades**  
+  Módulo opcional para armazenar o histórico de ações importantes, como criação, edição e exclusão de imóveis.  
+  Exemplo: “Usuário João alterou o preço do imóvel #234 de 300k para 310k em 06/10/2025.”
+
+### ☁️ Preparação para Escalabilidade
+- **Backups Automáticos**  
+  Rotina para salvar cópias do banco de dados e garantir recuperação em caso de falhas.
+
+- **Monitoramento em Tempo Real**  
+  Integração futura com dashboards para acompanhar uso, desempenho e comportamento do sistema.
+
+---
+
+> 💡 **Objetivo**: manter o MVP simples e funcional, mas com base sólida para expansão segura, escalável e profissional.
