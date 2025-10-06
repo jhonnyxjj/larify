@@ -136,3 +136,50 @@ Para construir e executar a imagem Docker para produção:
 docker build -f ./docker/Dockerfile -t larify-api .
 docker run -p 3000:3000 --env-file .env larify-api
 ```
+---
+
+### Features futuras
+
+## 🔐 Segurança e Estrutura — Futuras Implementações
+
+Essas features não são obrigatórias para o MVP, mas estão planejadas para fortalecer a arquitetura, segurança e escalabilidade do sistema.
+
+### 🧱 Controle e Integridade de Dados
+- **Soft Delete (`isActive`)**  
+  Permite desativar usuários e imóveis sem removê-los do banco, preservando histórico e integridade de relações.
+
+- **Restrição de Exclusão (`onDelete: Restrict`)**  
+  Impede a exclusão acidental de usuários que ainda possuem imóveis cadastrados.
+
+### 👥 Autenticação e Permissões
+- **Controle de Papéis (`role`)**  
+  Define níveis de acesso (ex: `USER` e `ADMIN`) para futuras funcionalidades administrativas.
+
+- **Registro de Último Login (`lastLoginAt`)**  
+  Guarda a data e hora do último acesso, útil para auditoria e métricas de uso.
+
+- **Registro de IP (`lastLoginIp`)**  
+  Permite detectar logins suspeitos e monitorar acessos por região.
+
+### ⚡ Desempenho e Cache
+- **Redis (Cache e Sessões)**  
+  Implementação de cache em memória para melhorar o desempenho de consultas, armazenamento de sessões e controle de rate-limit.
+
+- **Índices em Campos Críticos (`@@index`)**  
+  Melhora a performance em consultas de login e autenticação (`email`, `authProviderId`).
+
+### 📊 Auditoria (Futuro)
+- **Registro de Alterações de Entidades**  
+  Módulo opcional para armazenar o histórico de ações importantes, como criação, edição e exclusão de imóveis.  
+  Exemplo: “Usuário João alterou o preço do imóvel #234 de 300k para 310k em 06/10/2025.”
+
+### ☁️ Preparação para Escalabilidade
+- **Backups Automáticos**  
+  Rotina para salvar cópias do banco de dados e garantir recuperação em caso de falhas.
+
+- **Monitoramento em Tempo Real**  
+  Integração futura com dashboards para acompanhar uso, desempenho e comportamento do sistema.
+
+---
+
+> 💡 **Objetivo**: manter o MVP simples e funcional, mas com base sólida para expansão segura, escalável e profissional.
