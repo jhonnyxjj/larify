@@ -1,5 +1,7 @@
-// NOTE: 
-// Run the command bun prisma:generate after editing this file.
+// =========================
+// ⚠️ NOTE:
+// Sempre rode o comando `bun prisma:generate` após editar este arquivo.
+// =========================
 
 generator client {
   provider = "prisma-client-js"
@@ -10,10 +12,9 @@ datasource db {
   url      = env("LARIFY_DATABASE_URL")
 }
 
-/****************************
-* ENUMS
-****************************/
-
+// =========================
+//  ENUMS
+// =========================
 enum UserRole {
   USER
   ADMIN
@@ -30,62 +31,62 @@ enum PropertyStatus {
   SOLD
 }
 
-/****************************
-* TABLES
-****************************/
+// =========================
+//  MODELS / TABELAS
+// =========================
 
 model User {
-  id          String   @id @default(cuid())  // ID interno
-  authProviderId  String   @unique  @map("auth_provider_id") // UID vindo do Firebase Auth
-  name        String
-  email       String   @unique
-  phone       String?                          // opcional (para contato)
-  role        UserRole @default(USER)
+  id              String      @id @default(cuid())                     // ID interno
+  authProviderId  String      @unique @map("auth_provider_id")        // UID vindo do Firebase Auth
+  name            String
+  email           String      @unique
+  phone           String?                                         // opcional (para contato)
+  role            UserRole    @default(USER)
   
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
-  lastLoginAt     DateTime @map("last_login_at")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+  lastLoginAt     DateTime    @map("last_login_at")
 
   // Relacionamentos
-  properties  Property[]
-  
+  properties      Property[]
+
   @@map("users")
 }
 
 model Property {
-  id          String          @id @default(cuid())
-  title       String
-  description String
-  price       Decimal
-  type        PropertyType    // venda ou aluguel
-  status      PropertyStatus  @default(ACTIVE)
+  id            String          @id @default(cuid())
+  title         String
+  description   String
+  price         Decimal
+  type          PropertyType
+  status        PropertyStatus  @default(ACTIVE)
   
   // Endereço
-  city        String
-  neighborhood String
-  street      String
-  number      String
-  cep         String
-  reference   String?         // ponto de referência opcional
-  
+  city          String
+  neighborhood  String
+  street        String
+  number        String
+  cep           String
+  reference     String?          // ponto de referência opcional
+
   // Relacionamento
-  userId      String    @map("user_id")
-  user        User            @relation(fields: [userId], references: [id])
+  userId        String           @map("user_id")
+  user          User             @relation(fields: [userId], references: [id])
   
-  images      PropertyImage[]
-  
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  images        PropertyImage[]
+
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
   @@map("properties")
 }
 
 model PropertyImage {
-  id         String   @id @default(cuid())
-  url        String   // URL da foto (Firebase Storage, Cloudinary, etc)
+  id          String    @id @default(cuid())
+  url         String    // URL da foto (Firebase Storage, Cloudinary, etc)
   
-  propertyId String   @map("property_id")
-  property   Property @relation(fields: [propertyId], references: [id])
+  propertyId  String    @map("property_id")
+  property    Property  @relation(fields: [propertyId], references: [id])
 
   @@map("property_images")
 }

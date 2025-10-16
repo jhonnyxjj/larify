@@ -1,0 +1,1 @@
+export { IAuthMiddleware } from './i-auth-middleware';

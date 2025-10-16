@@ -50,3 +50,6 @@ docs/
 # Arquivo de guia do Docker pessoal
 DOCKER_GUIDE.md
 readme_guide.md
+
+#Firebase service account keys
+config/firebase-service-account.json

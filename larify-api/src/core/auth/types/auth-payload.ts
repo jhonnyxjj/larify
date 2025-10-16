@@ -1,0 +1,9 @@
+ export type AuthPayload = {
+    userId: number; 
+    email: string; 
+   //  TODO: #4 maybe add Roles admin to verify that you are a system administrator
+};
+
+    export interface AuthRequest extends Request {
+    auth: AuthPayload;
+}
