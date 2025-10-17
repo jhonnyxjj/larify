@@ -53,3 +53,6 @@ readme_guide.md
 
 #Firebase service account keys
 config/firebase-service-account.json
+
+# firebase-debug
+firebase-debug

@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.16.3",
+    "cz-conventional-emoji": "^1.1.8",
     "express": "^5.1.0",
     "firebase-admin": "^13.5.0",
     "pino": "^9.11.0",
@@ -52,7 +53,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "cz-emoji"
+      "path": "node_modules/cz-emoji-conventional"
     }
   },
   "lint-staged": {
