@@ -1,1 +1,2 @@
-export { IJwtHelper } from './contracts/i-jwt-helper';
+export * from './jwt-helper';
+export * from './contracts';

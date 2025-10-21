@@ -1,4 +1,4 @@
-import { AuthPayload } from '@/core/auth/types';
+import { AuthPayload } from '@/core/auth/_types';
 export type * as jwt from 'jsonwebtoken';
 
 export interface IJwtHelper {
