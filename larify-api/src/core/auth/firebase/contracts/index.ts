@@ -1,0 +1,1 @@
+export {type IFirebase} from './i-firebase';
