@@ -6,4 +6,5 @@ export const EnvSchema = z.object({
   PORT: z.string().transform(Number).default('3000'),
   LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error', 'fatal']),
   SLACK_ERROR_WEBHOOK: z.string().url().optional(),
+  FIREBASE_SERVICE_ACCOUNT_BASE64: z.string().regex(/^[A-Za-z0-9+/]+={0,2}$/),
 });

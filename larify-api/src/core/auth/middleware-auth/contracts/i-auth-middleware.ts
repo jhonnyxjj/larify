@@ -1,5 +1,5 @@
-import type { AuthRequest } from '@/core/auth/types';
+import type { AuthRequest } from '@/core/auth/_types';
 
 export interface IAuthMiddleware {
-    middlewareAuth(req: Request, securityName: string): Promise<AuthRequest>;
+    middlewareAuth(req: AuthRequest, securityName: string): Promise<AuthRequest>;
 }

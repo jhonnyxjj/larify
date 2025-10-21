@@ -1,1 +1,1 @@
-export { IAuthMiddleware } from './i-auth-middleware';
+export type { IAuthMiddleware } from './i-auth-middleware';
