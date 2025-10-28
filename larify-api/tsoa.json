@@ -4,9 +4,22 @@
   "controllerPathGlobs": ["src/**/*.controller.ts"],
   "spec": {
     "outputDirectory": "docs",
-    "specVersion": 3
+    "specVersion": 3,
+    "securityDefinitions": {
+      "jwt": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+    "security": [
+      {
+        "jwt": []
+      }
+    ]
   },
   "routes": {
-    "routesDir": "src/server/tsoa-generated"
+    "routesDir": "src/server/tsoa-generated",
+    "authenticationModule": "src/core/auth/middleware-auth"
   }
 }
