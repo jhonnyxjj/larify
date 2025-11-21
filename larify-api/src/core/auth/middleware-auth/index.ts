@@ -3,4 +3,6 @@ export * from './contracts';
 
 import { AuthMiddleware } from './auth-middleware';
 
-export const expressAuthentication = new AuthMiddleware().middlewareAuth;
+const authMiddleware = new AuthMiddleware();
+
+export const expressAuthentication = authMiddleware.middlewareAuth.bind(authMiddleware);

@@ -34,9 +34,14 @@ export class JwtHelper implements IJwtHelper {
     });
   }
   public async verifyToken(token: string): Promise<AuthPayload> {
-    if (!token) {
-      throw new BadRequestError('Token is required to verify');
+    try {
+      if (!token || typeof token !== 'string') {
+      throw new BadRequestError('A valid token must be provided for verification');
     }
     return await this.firebase.verifyFirebaseToken(token);
+  } catch (err) {
+      console.error('Token verification error:', err);
+      throw new UnauthorizedError('Token verification failed');
+    }
   }
 }
